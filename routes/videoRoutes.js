@@ -14,7 +14,15 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage });
+const fileFilter = (req, file, cb) => {
+    if(file.mimetype.startsWith('video/')){
+        cb(null, true)
+    }else{
+        cb(new Error('File type not supported'), false);
+    }
+}
+
+const upload = multer({ storage, fileFilter});
 
 const router = express.Router();
 
